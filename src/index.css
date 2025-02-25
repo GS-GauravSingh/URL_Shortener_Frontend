@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
+
+/* @theme directive is used to define CSS variables. Like in vanilla CSS, we use `:root` to define CSS Variables, but `@theme` is not just use to define CSS variable, these CSS variable can be used as tailwind utility classes. */
+@theme {
+
+    /* can be used as a tailwing utility class like this "font-inter". */
+    --font-inter: "Inter", serif;
+    --color-primary: #00416A;
+    --color-secondary: #26619C;
+    --color-gunmetalGray: #2A3439;
+}
+
+/* @layer base is used to define base style(s) for your tailwind css project. */
+@layer base {
+    body {
+        font-family: var(--font-inter);
+        font-size: 1rem;
+        color: var(--color-secondary);
+    }
+}
