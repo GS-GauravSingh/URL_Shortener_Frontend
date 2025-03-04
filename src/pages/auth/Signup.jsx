@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import signupSVG from "../../assets/signup.svg";
 import { EnvelopeSimple, User } from "@phosphor-icons/react";
 import { LockSimple } from "@phosphor-icons/react/dist/ssr";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../services/authService";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { PropagateLoader, FadeLoader } from "react-spinners";
 
 function Signup() {
-	const naviagte = useNavigate();
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const { loading } = useSelector((state) => state.auth);
+
+	const [firstname, setFirstname] = useState("");
+	const [lastname, setLastname] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	function handleSubmit(event) {
+		// prevent the default action of submit button.
+		event.preventDefault();
+
+		dispatch(
+			registerUser({ firstname, lastname, email, password }, navigate)
+		);
+	}
+
 	return (
 		<div className="h-screen px-4">
 			{/* Main Container - Contains actual content */}
@@ -30,7 +52,10 @@ function Signup() {
 						</p>
 					</div>
 
-					<form className="flex flex-col justify-center w-full space-y-2">
+					<form
+						onSubmit={handleSubmit}
+						className="flex flex-col justify-center w-full space-y-2"
+					>
 						{/* First name */}
 						<div className="group">
 							<label
@@ -48,6 +73,9 @@ function Signup() {
 									autoFocus
 									placeholder="Enter first name"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+									onChange={(event) =>
+										setFirstname(event.target.value)
+									}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<User size={20} weight="regular" />
@@ -71,6 +99,9 @@ function Signup() {
 									required
 									placeholder="Enter last name"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+									onChange={(event) =>
+										setLastname(event.target.value)
+									}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<User size={20} weight="regular" />
@@ -91,6 +122,9 @@ function Signup() {
 									required
 									placeholder="Enter email"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+									onChange={(event) =>
+										setEmail(event.target.value)
+									}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<EnvelopeSimple
@@ -115,8 +149,11 @@ function Signup() {
 									type="password"
 									id="userPassword"
 									required
-									placeholder="Create a new password"
+									placeholder="Create a new password (6+ characters long)"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+									onChange={(event) =>
+										setPassword(event.target.value)
+									}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<LockSimple size={20} weight="regular" />
@@ -126,16 +163,27 @@ function Signup() {
 
 						<p className="text-xs text-center my-4">
 							Already a member?&nbsp;
-							<button onClick={() => naviagte("/auth/signin")} className="text-primary underline underline-offset-4 font-medium cursor-pointer">
+							<button
+								onClick={() => navigate("/auth/signin")}
+								className="text-primary font-medium cursor-pointer"
+							>
 								Sign In
 							</button>
 						</p>
 
 						<button
 							type="submit"
-							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
+							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer flex items-center justify-center"
 						>
-							Register
+							{loading ? (
+								<PropagateLoader
+									color="white"
+									aria-label="Loading Spinner"
+									size={7}
+								/>
+							) : (
+								"Register"
+							)}
 						</button>
 					</form>
 				</div>

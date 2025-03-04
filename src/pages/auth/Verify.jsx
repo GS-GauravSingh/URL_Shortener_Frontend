@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import otpVerifySVG from "../../assets/otpVerification.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { resendOTP, verifyOTP } from "../../services/authService";
+import { PropagateLoader } from "react-spinners";
 
 function Verify() {
 	const otpInputRef = useRef([]);
@@ -8,6 +12,10 @@ function Verify() {
 	const minutes = Math.floor(timeLeft / 60);
 	const seconds = timeLeft % 60;
 	const [showResendOTPButton, setShowResendOTPButton] = useState(false);
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const { loading } = useSelector((state) => state.auth);
 
 	useEffect(() => {
 		// console.log(otpInputRef);
@@ -46,6 +54,7 @@ function Verify() {
 		const combinedOtp = newOtp.join("");
 		if (combinedOtp.length === 4) {
 			console.log(combinedOtp);
+			handleVerifyOTP(combinedOtp);
 		}
 	}
 	function handleOnClick(index) {
@@ -69,6 +78,15 @@ function Verify() {
 		// restart the time and hide the resend button.
 		setTimeLeft(2 * 60);
 		setShowResendOTPButton(false);
+
+		const email = sessionStorage.getItem("userEmail");
+		dispatch(resendOTP({ email }));
+	}
+
+	function handleVerifyOTP(otp) {
+		const email = sessionStorage.getItem("userEmail");
+
+		dispatch(verifyOTP({ email, otp }, navigate));
 	}
 
 	return (
@@ -162,7 +180,15 @@ function Verify() {
 							type="submit"
 							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
 						>
-							Verify
+							{loading ? (
+								<PropagateLoader
+									color="white"
+									aria-label="Loading Spinner"
+									size={7}
+								/>
+							) : (
+								"Verify"
+							)}
 						</button>
 					</form>
 				</div>

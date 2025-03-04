@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Footer, Navbar } from "../components";
 import { Outlet, useNavigate } from "react-router-dom";
 import { LinkSimple } from "@phosphor-icons/react";
+import { useDispatch, useSelector } from "react-redux";
+import { shortenURL } from "../services/urlService";
+import { PropagateLoader } from "react-spinners";
 
 function Dashboard() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const [url, setUrl] = useState("");
+
+	const { isAuthenticated } = useSelector((state) => state.auth);
+	const { loading } = useSelector((state) => state.url);
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		navigate("/user/url");
+		dispatch(shortenURL({ url }, navigate));
 	}
 	return (
 		<div className="h-screen flex flex-col">
@@ -31,11 +39,14 @@ function Dashboard() {
 
 					<div className="relative">
 						<input
-							type="text"
+							type="url"
 							name=""
 							id=""
+							required
+							disabled={!isAuthenticated}
 							placeholder="Enter long URL here"
 							className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+							onChange={(event) => setUrl(event.target.value)}
 						/>
 
 						<span className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -44,9 +55,18 @@ function Dashboard() {
 					</div>
 					<button
 						type="submit"
+						disabled={!isAuthenticated}
 						className="w-full bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
 					>
-						Shorten URL
+						{loading ? (
+							<PropagateLoader
+								color="white"
+								aria-label="Loading Spinner"
+								size={7}
+							/>
+						) : (
+							"Shorten URL"
+						)}
 					</button>
 
 					<div className="flex flex-col text-sm text-center">

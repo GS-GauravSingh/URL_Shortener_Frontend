@@ -2,10 +2,25 @@ import React, { useState } from "react";
 import signinSVG from "../../assets/signin.svg";
 import { EnvelopeSimple, Eye, EyeClosed, User } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../services/authService";
+import { PropagateLoader } from "react-spinners";
 
 function Signin() {
 	const [showPassword, setShowPassword] = useState(false);
+
+	const [email, setEmail] = useState();
+	const [password, setPassword] = useState();
+
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { loading } = useSelector((state) => state.auth);
+
+	function handleSubmit(event) {
+		event.preventDefault();
+
+		dispatch(loginUser({ email, password }, navigate));
+	}
 
 	return (
 		<div className="h-screen px-4">
@@ -31,7 +46,10 @@ function Signin() {
 						</p>
 					</div>
 
-					<form className="flex flex-col justify-center w-full space-y-2">
+					<form
+						onSubmit={handleSubmit}
+						className="flex flex-col justify-center w-full space-y-2"
+					>
 						{/* Email */}
 						<div className="group">
 							<label htmlFor="userEmail" className="text-primary">
@@ -46,6 +64,9 @@ function Signin() {
 									autoFocus
 									placeholder="Enter email"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+									onChange={(event) =>
+										setEmail(event.target.value)
+									}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<EnvelopeSimple
@@ -72,6 +93,9 @@ function Signin() {
 									required
 									placeholder="Enter password"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
+									onChange={(event) =>
+										setPassword(event.target.value)
+									}
 								/>
 								<span
 									className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary cursor-pointer"
@@ -90,8 +114,19 @@ function Signin() {
 
 						<p className="text-xs text-center my-4">
 							Don't have any account?&nbsp;
-							<button onClick={() =>  navigate("/auth/signup")} className="text-primary underline underline-offset-4 cursor-pointer font-medium">
-								Sign Up
+							<button
+								onClick={() => navigate("/auth/signup")}
+								className="text-primary cursor-pointer font-medium"
+							>
+								{loading ? (
+									<PropagateLoader
+										color="white"
+										aria-label="Loading Spinner"
+										size={7}
+									/>
+								) : (
+									"Sign In"
+								)}
 							</button>
 						</p>
 

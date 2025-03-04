@@ -2,6 +2,7 @@ import { List, UserCircle } from "@phosphor-icons/react";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { TbMenu3 } from "react-icons/tb";
+import { useSelector } from "react-redux";
 
 function Navbar() {
 	const menu = [
@@ -10,14 +11,16 @@ function Navbar() {
 			path: "/dashboard",
 		},
 		{
+			title: "Recent URL",
+			path: "/user/url",
+		},
+		{
 			title: "My URL(s)",
 			path: "/user/urls",
 		},
-		// {
-		// 	title: "Profile",
-		// 	path: "/user/profile",
-		// },
 	];
+
+	const { isAuthenticated } = useSelector((state) => state.auth);
 
 	return (
 		<header className="flex flex-col sm:flex-row gap-4 justify-between items-center shadow shadow-primary  p-4 relative">
@@ -30,7 +33,9 @@ function Navbar() {
 				</span>
 			</div>
 
-			<nav className="text-sm flex flex-row items-center gap-6">
+			<nav
+				className={`${!isAuthenticated && "hidden"} text-sm flex flex-row items-center gap-6`}
+			>
 				{menu.map(({ title, path }, index) => {
 					return (
 						<NavLink
@@ -41,7 +46,8 @@ function Navbar() {
 									isActive
 										? "text-primary font-medium underline"
 										: ""
-								}`
+								}
+								`
 							}
 						>
 							{title}
