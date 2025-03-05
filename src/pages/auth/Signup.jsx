@@ -166,6 +166,7 @@ function Signup() {
 							<button
 								onClick={() => navigate("/auth/signin")}
 								className="text-primary font-medium cursor-pointer"
+								disabled={loading}
 							>
 								Sign In
 							</button>
@@ -173,7 +174,8 @@ function Signup() {
 
 						<button
 							type="submit"
-							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer flex items-center justify-center"
+							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer flex items-center justify-center disabled:cursor-no-drop"
+							disabled={loading}
 						>
 							{loading ? (
 								<PropagateLoader

@@ -4,16 +4,16 @@ import { CopySimple } from "@phosphor-icons/react";
 import { FaCopy } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRecentUrl } from "../../services/urlService";
+import { PropagateLoader } from "react-spinners";
 
 function RecentUrl() {
 	const { recent, loading } = useSelector((state) => state.url);
 	const dispatch = useDispatch();
 
-	function fetchRecent(event){
+	function fetchRecent(event) {
 		event.preventDefault();
 		dispatch(fetchRecentUrl());
 	}
-
 
 	return (
 		<div className="h-screen w-full flex flex-col">
@@ -33,10 +33,22 @@ function RecentUrl() {
 					action=""
 					className="w-full max-w-[500px] space-y-4 shadow shadow-primary p-2 md:px-8 md:py-8 rounded-md"
 				>
-					<p className="text-center">
-						<button onClick={fetchRecent} className="bg-secondary w-fit text-white text-sm p-2 rounded-md font-medium cursor-pointer">
-							Fetch Recent
-						</button>
+					<p className={`text-center ${loading && "py-4"}`}>
+						{loading ? (
+							<PropagateLoader
+								color="#26619C"
+								aria-label="Loading Spinner"
+								size={7}
+							/>
+						) : (
+							<button
+								onClick={fetchRecent}
+								disabled={loading}
+								className="bg-secondary w-fit text-white text-sm px-2 py-2 rounded-md font-medium cursor-pointer disabled:cursor-no-drop"
+							>
+								Fetch Recent
+							</button>
+						)}
 					</p>
 
 					<div className="relative">

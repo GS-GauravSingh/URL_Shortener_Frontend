@@ -116,7 +116,8 @@ function Signin() {
 							Don't have any account?&nbsp;
 							<button
 								onClick={() => navigate("/auth/signup")}
-								className="text-primary cursor-pointer font-medium"
+								className="text-primary cursor-pointer font-medium disabled:cursor-no-drop"
+								disabled={loading}
 							>
 								{loading ? (
 									<PropagateLoader
@@ -133,6 +134,7 @@ function Signin() {
 						<button
 							type="submit"
 							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
+							disabled={loading}
 						>
 							Sign In
 						</button>

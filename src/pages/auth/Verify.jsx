@@ -165,7 +165,8 @@ function Verify() {
 								{showResendOTPButton && (
 									<button
 										onClick={handleResendOTP}
-										className="text-xs font-medium text-center cursor-pointer"
+										className="text-xs font-medium text-center cursor-pointer disabled:cursor-no-drop"
+										disabled={loading}
 									>
 										Resend OTP
 									</button>
@@ -178,7 +179,8 @@ function Verify() {
 
 						<button
 							type="submit"
-							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
+							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer disabled:cursor-no-drop"
+							disabled={loading}
 						>
 							{loading ? (
 								<PropagateLoader

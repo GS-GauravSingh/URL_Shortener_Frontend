@@ -56,7 +56,7 @@ function Dashboard() {
 					<button
 						type="submit"
 						disabled={!isAuthenticated}
-						className="w-full bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
+						className="w-full bg-secondary rounded-md text-white h-10 text-sm cursor-pointer disabled:cursor-no-drop"
 					>
 						{loading ? (
 							<PropagateLoader
