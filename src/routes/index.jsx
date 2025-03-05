@@ -1,15 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
-import Signup from "../pages/auth/Signup";
-import Signin from "../pages/auth/Signin";
-import Verify from "../pages/auth/Verify";
-import { RecentUrl, Urls } from "../pages";
-import { useDispatch } from "react-redux";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Dashboard, RecentUrl, Signin, Signup, Urls, Verify } from "../pages";
+import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "../services/authService";
 
 function index() {
-
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
