@@ -33,13 +33,13 @@ export function registerUser(
 				"/api/v1/auth/signup",
 				userCredentails
 			);
-			console.log(response);
+			// console.log(response);
 			toast.success(response.data.message);
 		} catch (error) {
-			console.log(
-				"Error: registerUser: An error encountered during registration process.",
-				error
-			);
+			// console.log(
+			// 	"Error: registerUser: An error encountered during registration process.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||
@@ -77,7 +77,7 @@ export function verifyOTP({ email, otp }, navigate) {
 				userCredentails
 			);
 
-			console.log(response);
+			// console.log(response);
 
 			const { token, message, user } = response.data;
 
@@ -86,10 +86,10 @@ export function verifyOTP({ email, otp }, navigate) {
 
 			toast.success(message || "Email Verified Successfully!");
 		} catch (error) {
-			console.log(
-				"Error: verifyOTP: An error encountered during OTP verification process.",
-				error
-			);
+			// console.log(
+			// 	"Error: verifyOTP: An error encountered during OTP verification process.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||
@@ -126,13 +126,13 @@ export function resendOTP({ email }) {
 				"/api/v1/auth/resend-otp",
 				userCredentails
 			);
-			console.log(response);
+			// console.log(response);
 			toast.success(response.data.message);
 		} catch (error) {
-			console.log(
-				"Error: resendOTP: An error encountered during resend OTP process.",
-				error
-			);
+			// console.log(
+			// 	"Error: resendOTP: An error encountered during resend OTP process.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||
@@ -168,13 +168,13 @@ export function loginUser({ email, password }, navigate) {
 
 			dispatch(authenticationSuccess({ user }));
 
-			console.log(response);
+			// console.log(response);
 			toast.success(message || "Logged in successfully!");
 		} catch (error) {
-			console.log(
-				"Error: loginUser: An error encountered during login process.",
-				error
-			);
+			// console.log(
+			// 	"Error: loginUser: An error encountered during login process.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||
@@ -210,13 +210,13 @@ export function getMe(navigate) {
 
 			dispatch(authenticationSuccess({ user }));
 
-			console.log(response);
+			// console.log(response);
 			toast.success(message || "Logged in successfully!");
 		} catch (error) {
-			console.log(
-				"Error: getMe: An error encountered while getting the current user details.",
-				error
-			);
+			// console.log(
+			// 	"Error: getMe: An error encountered while getting the current user details.",
+			// 	error
+			// );
 			dispatch(setError(error));
 
 			toast.error(

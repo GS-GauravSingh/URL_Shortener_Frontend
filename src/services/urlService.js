@@ -25,15 +25,15 @@ export function shortenURL({ url }, navigate) {
 				}
 			);
 
-			console.log(response);
+			// console.log(response);
 			const { message, shortenUrl, originalUrl } = response.data;
 			toast(message || "URL shortened successfully!");
 			dispatch(setRecent({ shortenUrl, originalUrl }));
 		} catch (error) {
-			console.log(
-				"Error: shortenURL: An error encountered during url shortening process.",
-				error
-			);
+			// console.log(
+			// 	"Error: shortenURL: An error encountered during url shortening process.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||
@@ -70,10 +70,10 @@ export function fetchAllUrls() {
 			toast(message);
 			dispatch(setUrls(urls));
 		} catch (error) {
-			console.log(
-				"Error: fetchAllUrls: An error encountered while fetching all URLs.",
-				error
-			);
+			// console.log(
+			// 	"Error: fetchAllUrls: An error encountered while fetching all URLs.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||
@@ -100,15 +100,15 @@ export function fetchRecentUrl() {
 				},
 			});
 
-			console.log(response);
+			// console.log(response);
 			const { message, recentUrl } = response.data;
 			toast(message);
 			dispatch(setRecent(recentUrl[0]));
 		} catch (error) {
-			console.log(
-				"Error: fetchRecentUrl: An error encountered while fetching most recently generated URL.",
-				error
-			);
+			// console.log(
+			// 	"Error: fetchRecentUrl: An error encountered while fetching most recently generated URL.",
+			// 	error
+			// );
 			dispatch(setError(error));
 			toast.error(
 				error?.response?.data?.message ||

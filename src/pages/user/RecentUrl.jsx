@@ -44,7 +44,7 @@ function RecentUrl() {
 							type="text"
 							name=""
 							id=""
-							value={recent.shortenUrl ? recent.shortenUrl : ""}
+							value={recent?.shortenUrl ? recent?.shortenUrl : ""}
 							placeholder="It’s empty here! Shorten your first URL."
 							readOnly
 							className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-14 text-sm text-primary tracking-wider !font-inter"
@@ -67,8 +67,8 @@ function RecentUrl() {
 							rel="noopener noreferrer"
 							className=""
 						>
-							{recent.originalUrl
-								? recent.originalUrl
+							{recent?.originalUrl
+								? recent?.originalUrl
 								: "Your original URL will be shown here once you create a short link."}
 						</a>
 					</p>

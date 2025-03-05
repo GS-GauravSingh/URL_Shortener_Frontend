@@ -53,7 +53,7 @@ function Verify() {
 		// combined OTP
 		const combinedOtp = newOtp.join("");
 		if (combinedOtp.length === 4) {
-			console.log(combinedOtp);
+			// console.log(combinedOtp);
 			handleVerifyOTP(combinedOtp);
 		}
 	}
@@ -165,7 +165,7 @@ function Verify() {
 								{showResendOTPButton && (
 									<button
 										onClick={handleResendOTP}
-										className="text-xs font-medium text-center underline underline-offset-4 cursor-pointer"
+										className="text-xs font-medium text-center cursor-pointer"
 									>
 										Resend OTP
 									</button>
