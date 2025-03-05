@@ -126,7 +126,7 @@ function Signin() {
 										size={7}
 									/>
 								) : (
-									"Sign In"
+									"Sign Up"
 								)}
 							</button>
 						</p>

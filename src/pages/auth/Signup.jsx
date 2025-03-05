@@ -165,7 +165,7 @@ function Signup() {
 							Already a member?&nbsp;
 							<button
 								onClick={() => navigate("/auth/signin")}
-								className="text-primary font-medium cursor-pointer"
+								className="text-primary font-medium cursor-pointer disabled:cursor-no-drop"
 								disabled={loading}
 							>
 								Sign In
