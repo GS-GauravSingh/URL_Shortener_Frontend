@@ -23,6 +23,7 @@ function RecentUrl() {
 		if (passwordInputRef.current?.value) {
 			passwordInputRef.current?.select();
 			window.navigator.clipboard.writeText(recent?.shortenUrl);
+			toast.success("Link copied to clipboard!")
 		} else {
 			toast.info("Nothing to copy!");
 		}
