@@ -22,25 +22,29 @@ function RecentUrl() {
 
 			{/* Main Body */}
 			<main className="flex-grow flex flex-col items-center px-4 py-6 space-y-6">
-				<div className="">
-					<h3 className="text-lg md:text-xl lg:text-2xl font-bold">
-						Your Short Link is Ready!
-					</h3>
-					<p>Copy, share, and manage your links with ease.</p>
-				</div>
+				<p className={`text-center`}>
+					{loading ? (
+						<PropagateLoader
+							color="#26619C"
+							aria-label="Loading Spinner"
+							size={7}
+						/>
+					) : (
+						<div className="flex flex-col gap-6 items-center">
+							{Object.keys(recent).length ? (
+								<div className="">
+									<h3 className="text-lg md:text-xl lg:text-2xl font-bold">
+										Your Short Link is Ready!
+									</h3>
+									<p>
+										Copy, share, and manage your links with
+										ease.
+									</p>
+								</div>
+							) : (
+								""
+							)}
 
-				<form
-					action=""
-					className="w-full max-w-[500px] space-y-4 shadow shadow-primary p-2 md:px-8 md:py-8 rounded-md"
-				>
-					<p className={`text-center ${loading && "py-4"}`}>
-						{loading ? (
-							<PropagateLoader
-								color="#26619C"
-								aria-label="Loading Spinner"
-								size={7}
-							/>
-						) : (
 							<button
 								onClick={fetchRecent}
 								disabled={loading}
@@ -48,43 +52,59 @@ function RecentUrl() {
 							>
 								Fetch Recent
 							</button>
-						)}
+						</div>
+					)}
+				</p>
+
+				{Object.keys(recent).length ? (
+					<form
+						action=""
+						className="w-full max-w-[500px] space-y-4 shadow shadow-primary p-2 md:px-8 md:py-8 rounded-md"
+					>
+						<div className="relative">
+							<input
+								type="text"
+								name=""
+								id=""
+								value={
+									recent?.shortenUrl ? recent?.shortenUrl : ""
+								}
+								placeholder="It’s empty here! Shorten your first URL."
+								readOnly
+								className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-14 text-sm text-primary tracking-wider !font-inter"
+							/>
+
+							<span
+								className="absolute right-0 top-1/2 -translate-y-1/2 h-full border rounded-tr-md rounded-br-md bg-secondary flex items-center justify-center px-4 cursor-pointer"
+								title="Copy URL"
+							>
+								<FaCopy className="text-white text-xl" />
+							</span>
+						</div>
+
+						<p className="text-sm">
+							<strong>Long URL:&nbsp;</strong>
+
+							<a
+								href="http://"
+								target="_blank"
+								rel="noopener noreferrer"
+								className=""
+							>
+								{recent?.originalUrl
+									? recent?.originalUrl
+									: "Your original URL will be shown here once you create a short link."}
+							</a>
+						</p>
+					</form>
+				) : (
+					<p className="font-medium h-full flex items-center justify-center">
+						<em>
+							Looks like you haven't created a short link
+							recently. Generate one now!
+						</em>
 					</p>
-
-					<div className="relative">
-						<input
-							type="text"
-							name=""
-							id=""
-							value={recent?.shortenUrl ? recent?.shortenUrl : ""}
-							placeholder="It’s empty here! Shorten your first URL."
-							readOnly
-							className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-14 text-sm text-primary tracking-wider !font-inter"
-						/>
-
-						<span
-							className="absolute right-0 top-1/2 -translate-y-1/2 h-full border rounded-tr-md rounded-br-md bg-secondary flex items-center justify-center px-4 cursor-pointer"
-							title="Copy URL"
-						>
-							<FaCopy className="text-white text-xl" />
-						</span>
-					</div>
-
-					<p className="text-sm">
-						<strong>Long URL:&nbsp;</strong>
-
-						<a
-							href="http://"
-							target="_blank"
-							rel="noopener noreferrer"
-							className=""
-						>
-							{recent?.originalUrl
-								? recent?.originalUrl
-								: "Your original URL will be shown here once you create a short link."}
-						</a>
-					</p>
-				</form>
+				)}
 			</main>
 
 			{/* Footer */}

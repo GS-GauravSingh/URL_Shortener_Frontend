@@ -23,7 +23,9 @@ function Urls() {
 					disabled={loading}
 					className="bg-secondary w-fit text-white text-sm p-2 rounded-md font-medium cursor-pointer disabled:cursor-no-drop"
 				>
-					Fetch URL(s)
+					{
+						urls.length ? "Update List" : "Fetch URL(s)"
+					}
 				</button>
 			</p>
 
