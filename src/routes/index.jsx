@@ -10,7 +10,7 @@ function index() {
 
 	// fetching user details once on component mount.
 	useEffect(() => {
-		// dispatch(getMe(navigate));
+		dispatch(getMe(navigate));
 	}, []);
 
 	return (
