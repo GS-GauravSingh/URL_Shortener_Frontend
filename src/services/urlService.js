@@ -27,7 +27,7 @@ export function shortenURL({ url }, navigate) {
 
 			// console.log(response);
 			const { message, shortenUrl, originalUrl } = response.data;
-			toast(message || "URL shortened successfully!");
+			toast.success(message || "URL shortened successfully!");
 			dispatch(setRecent({ shortenUrl, originalUrl }));
 		} catch (error) {
 			// console.log(
@@ -67,7 +67,7 @@ export function fetchAllUrls() {
 			});
 
 			const { message, urls } = response.data;
-			toast(message);
+			toast.success(message);
 			dispatch(setUrls(urls));
 		} catch (error) {
 			// console.log(
@@ -102,7 +102,7 @@ export function fetchRecentUrl() {
 
 			// console.log(response);
 			const { message, recentUrl } = response.data;
-			toast(message);
+			toast.success(message);
 			dispatch(setRecent(recentUrl[0]));
 		} catch (error) {
 			// console.log(

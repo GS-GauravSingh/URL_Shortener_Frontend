@@ -1,18 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Footer, Navbar } from "../../components";
 import { CopySimple } from "@phosphor-icons/react";
 import { FaCopy } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRecentUrl } from "../../services/urlService";
 import { PropagateLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 function RecentUrl() {
 	const { recent, loading } = useSelector((state) => state.url);
 	const dispatch = useDispatch();
+	const passwordInputRef = useRef(null);
 
 	function fetchRecent(event) {
 		event.preventDefault();
 		dispatch(fetchRecentUrl());
+	}
+
+	function handleCopyToClipboard(event) {
+		event.preventDefault();
+
+		if (passwordInputRef.current?.value) {
+			passwordInputRef.current?.select();
+			window.navigator.clipboard.writeText(recent?.shortenUrl);
+		} else {
+			toast.info("Nothing to copy!");
+		}
 	}
 
 	return (
@@ -56,7 +69,7 @@ function RecentUrl() {
 					)}
 				</p>
 
-				{Object.keys(recent).length ? (
+				{!Object.keys(recent).length ? (
 					<form
 						action=""
 						className="w-full max-w-[500px] space-y-4 shadow shadow-primary p-2 md:px-8 md:py-8 rounded-md"
@@ -72,14 +85,16 @@ function RecentUrl() {
 								placeholder="It’s empty here! Shorten your first URL."
 								readOnly
 								className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-14 text-sm text-primary tracking-wider !font-inter"
+								ref={passwordInputRef}
 							/>
 
-							<span
+							<button
 								className="absolute right-0 top-1/2 -translate-y-1/2 h-full border rounded-tr-md rounded-br-md bg-secondary flex items-center justify-center px-4 cursor-pointer"
 								title="Copy URL"
+								onClick={handleCopyToClipboard}
 							>
 								<FaCopy className="text-white text-xl" />
-							</span>
+							</button>
 						</div>
 
 						<p className="text-sm">
