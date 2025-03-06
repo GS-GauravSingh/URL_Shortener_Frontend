@@ -119,15 +119,7 @@ function Signin() {
 								className="text-primary cursor-pointer font-medium disabled:cursor-no-drop"
 								disabled={loading}
 							>
-								{loading ? (
-									<PropagateLoader
-										color="white"
-										aria-label="Loading Spinner"
-										size={7}
-									/>
-								) : (
-									"Sign Up"
-								)}
+								Sign Up
 							</button>
 						</p>
 
@@ -136,7 +128,15 @@ function Signin() {
 							className="bg-secondary rounded-md text-white h-10 text-sm cursor-pointer"
 							disabled={loading}
 						>
-							Sign In
+							{loading ? (
+								<PropagateLoader
+									color="white"
+									aria-label="Loading Spinner"
+									size={7}
+								/>
+							) : (
+								"Sign In"
+							)}
 						</button>
 					</form>
 				</div>
