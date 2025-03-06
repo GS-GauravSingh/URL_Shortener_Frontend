@@ -23,7 +23,7 @@ function RecentUrl() {
 		if (passwordInputRef.current?.value) {
 			passwordInputRef.current?.select();
 			window.navigator.clipboard.writeText(recent?.shortenUrl);
-			toast.success("Link copied to clipboard!")
+			toast.success("Link copied to clipboard!");
 		} else {
 			toast.info("Nothing to copy!");
 		}
@@ -36,7 +36,7 @@ function RecentUrl() {
 
 			{/* Main Body */}
 			<main className="flex-grow flex flex-col items-center px-4 py-6 space-y-6">
-				<p className={`text-center`}>
+				<div className={`text-center ${loading && "h-full flex items-center justify-center"}`}>
 					{loading ? (
 						<PropagateLoader
 							color="#26619C"
@@ -45,7 +45,7 @@ function RecentUrl() {
 						/>
 					) : (
 						<div className="flex flex-col gap-6 items-center">
-							{Object.keys(recent).length ? (
+							{recent && Object.keys(recent).length ? (
 								<div className="">
 									<h3 className="text-lg md:text-xl lg:text-2xl font-bold">
 										Your Short Link is Ready!
@@ -68,9 +68,9 @@ function RecentUrl() {
 							</button>
 						</div>
 					)}
-				</p>
+				</div>
 
-				{Object.keys(recent).length ? (
+				{recent && Object.keys(recent).length ? (
 					<form
 						action=""
 						className="w-full max-w-[500px] space-y-4 shadow shadow-primary p-2 md:px-8 md:py-8 rounded-md"
@@ -113,6 +113,8 @@ function RecentUrl() {
 							</a>
 						</p>
 					</form>
+				) : loading ? (
+					""
 				) : (
 					<p className="font-medium h-full flex items-center justify-center">
 						<em>

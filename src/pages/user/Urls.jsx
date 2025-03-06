@@ -17,17 +17,19 @@ function Urls() {
 			{/* Header and Navigation Bar */}
 			<Navbar />
 
-			<p className="text-center mt-6">
-				<button
-					onClick={handleFetchUrls}
-					disabled={loading}
-					className="bg-secondary w-fit text-white text-sm p-2 rounded-md font-medium cursor-pointer disabled:cursor-no-drop"
-				>
-					{
-						urls.length ? "Update List" : "Fetch URL(s)"
-					}
-				</button>
-			</p>
+			{loading ? (
+				""
+			) : (
+				<p className="text-center mt-6">
+					<button
+						onClick={handleFetchUrls}
+						disabled={loading}
+						className="bg-secondary w-fit text-white text-sm p-2 rounded-md font-medium cursor-pointer disabled:cursor-no-drop"
+					>
+						{urls.length ? "Update List" : "Fetch URL(s)"}
+					</button>
+				</p>
+			)}
 
 			{/* Main Body */}
 			<main
