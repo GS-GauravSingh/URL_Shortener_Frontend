@@ -70,7 +70,7 @@ function RecentUrl() {
 					)}
 				</div>
 
-				{recent && Object.keys(recent).length ? (
+				{!loading && recent && Object.keys(recent).length ? (
 					<form
 						action=""
 						className="w-full max-w-[500px] space-y-4 shadow shadow-primary p-2 md:px-8 md:py-8 rounded-md"
