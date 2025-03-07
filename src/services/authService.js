@@ -148,12 +148,14 @@ export function loginUser(formData) {
 				"/api/v1/auth/login",
 				userCredentails
 			);
-			toast.success(message || "Logged in successfully!");
 
 			const { token, message, user } = response.data;
 			localStorage.setItem("authToken", token); // store token in the local storage
-
+			toast.success(message || "Logged in successfully!");
 			dispatch(authenticationSuccess({ user }));
+
+			// return a successfull response
+			return response.data;
 		} catch (error) {
 			dispatch(setError(error));
 			toast.error(
@@ -161,6 +163,9 @@ export function loginUser(formData) {
 					error?.message ||
 					"Something went wrong!!"
 			);
+
+			// return a rejected promise
+			return Promise.reject(error);
 		} finally {
 			dispatch(setLoading(false));
 		}
