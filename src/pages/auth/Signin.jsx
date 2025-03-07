@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../services/authService";
 import { PropagateLoader } from "react-spinners";
+import { useForm } from "react-hook-form";
 
 function Signin() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -16,10 +17,21 @@ function Signin() {
 	const navigate = useNavigate();
 	const { loading } = useSelector((state) => state.auth);
 
-	function handleSubmit(event) {
-		event.preventDefault();
+	const {
+		register, // `register` is a function provided by the `useForm` hook. We can assign it to each input field so that the react-hook-form can track the changes for the input field value
+		handleSubmit, // `handleSubmit` is the function we can call when the form is submitted
+		formState: { errors }, // the `formState` object contains various properties that help track the form's state. It provides details about errors, touched fields, dirty fields, submission status, etc.
+		reset, // reset() is a function provided by the useForm() hook to clear the form fields and reset errors to their default state.
+	} = useForm();
 
-		dispatch(loginUser({ email, password }, navigate));
+	async function onSubmit(data) {
+		try {
+			await dispatch(loginUser(data));
+			navigate("/dashboard");
+		} catch (error) {
+		} finally {
+			reset(); // reset the form fields
+		}
 	}
 
 	return (
@@ -47,7 +59,7 @@ function Signin() {
 					</div>
 
 					<form
-						onSubmit={handleSubmit}
+						onSubmit={handleSubmit(onSubmit)}
 						className="flex flex-col justify-center w-full space-y-2"
 					>
 						{/* Email */}
@@ -64,9 +76,14 @@ function Signin() {
 									autoFocus
 									placeholder="Enter email"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
-									onChange={(event) =>
-										setEmail(event.target.value)
-									}
+									{...register("email", {
+										required: "Email is required",
+										pattern: {
+											value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+											message:
+												"Enter a valid email address.", // Custom error message
+										},
+									})}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<EnvelopeSimple
@@ -75,6 +92,12 @@ function Signin() {
 									/>
 								</span>
 							</div>
+							{/* Display error message if 'email' has an error */}
+							{errors.email && (
+								<p className="text-xs text-red-700 my-[2px]">
+									{errors.email.message}
+								</p>
+							)}
 						</div>
 
 						{/* Password */}
@@ -93,9 +116,14 @@ function Signin() {
 									required
 									placeholder="Enter password"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
-									onChange={(event) =>
-										setPassword(event.target.value)
-									}
+									{...register("password", {
+										required: "Password is required",
+										minLength: {
+											value: 6,
+											message:
+												"Password must be at least 6 characters long.",
+										},
+									})}
 								/>
 								<span
 									className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary cursor-pointer"
@@ -110,6 +138,12 @@ function Signin() {
 									)}
 								</span>
 							</div>
+							{/* Display error message if 'password' has an error */}
+							{errors.password && (
+								<p className="text-xs text-red-700 my-[2px]">
+									{errors.password.message}
+								</p>
+							)}
 						</div>
 
 						<p className="text-xs text-center my-4">

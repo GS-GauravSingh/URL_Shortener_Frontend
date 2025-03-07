@@ -7,6 +7,7 @@ import { registerUser } from "../../services/authService";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { PropagateLoader, FadeLoader } from "react-spinners";
+import { useForm } from "react-hook-form";
 
 function Signup() {
 	const navigate = useNavigate();
@@ -14,18 +15,23 @@ function Signup() {
 
 	const { loading } = useSelector((state) => state.auth);
 
-	const [firstname, setFirstname] = useState("");
-	const [lastname, setLastname] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const {
+		register, // `register` is a function provided by the `useForm` hook. We can assign it to each input field so that the react-hook-form can track the changes for the input field value
+		handleSubmit, // `handleSubmit` is the function we can call when the form is submitted
+		formState: { errors }, // the `formState` object contains various properties that help track the form's state. It provides details about errors, touched fields, dirty fields, submission status, etc.
+		reset, // reset() is a function provided by the useForm() hook to clear the form fields and reset errors to their default state.
+	} = useForm();
 
-	function handleSubmit(event) {
-		// prevent the default action of submit button.
-		event.preventDefault();
+	async function onSubmit(data) {
+		console.log(data);
 
-		dispatch(
-			registerUser({ firstname, lastname, email, password }, navigate)
-		);
+		try {
+			await dispatch(registerUser(data));
+			navigate("/auth/verify");
+		} catch (error) {
+		} finally {
+			reset(); // reset the form fields
+		}
 	}
 
 	return (
@@ -53,7 +59,7 @@ function Signup() {
 					</div>
 
 					<form
-						onSubmit={handleSubmit}
+						onSubmit={handleSubmit(onSubmit)}
 						className="flex flex-col justify-center w-full space-y-2"
 					>
 						{/* First name */}
@@ -69,18 +75,29 @@ function Signup() {
 								<input
 									type="text"
 									id="userFirstName"
-									required
+									name="firstname"
 									autoFocus
 									placeholder="Enter first name"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
-									onChange={(event) =>
-										setFirstname(event.target.value)
-									}
+									{...register("firstname", {
+										required: "Firstname is required!",
+										pattern: {
+											value: /^[A-Za-z]+$/, // Only alphabets allowed
+											message:
+												"Firstname should only contain letters (A-Z, a-z).", // Custom error message
+										},
+									})}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<User size={20} weight="regular" />
 								</span>
 							</div>
+							{/* Display error message if 'firstname' has an error */}
+							{errors.firstname && (
+								<p className="text-xs text-red-700 my-[2px]">
+									{errors.firstname.message}
+								</p>
+							)}
 						</div>
 
 						{/* Last name */}
@@ -96,17 +113,27 @@ function Signup() {
 								<input
 									type="text"
 									id="userLastName"
-									required
 									placeholder="Enter last name"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
-									onChange={(event) =>
-										setLastname(event.target.value)
-									}
+									{...register("lastname", {
+										required: "Lastname is required!",
+										pattern: {
+											value: /^[A-Za-z]+$/, // Only alphabets allowed
+											message:
+												"Lastname should only contain letters (A-Z, a-z).", // Custom error message
+										},
+									})}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<User size={20} weight="regular" />
 								</span>
 							</div>
+							{/* Display error message if 'lastname' has an error */}
+							{errors.lastname && (
+								<p className="text-xs text-red-700 my-[2px]">
+									{errors.lastname.message}
+								</p>
+							)}
 						</div>
 
 						{/* Email */}
@@ -119,12 +146,16 @@ function Signup() {
 								<input
 									type="email"
 									id="userEmail"
-									required
 									placeholder="Enter email"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
-									onChange={(event) =>
-										setEmail(event.target.value)
-									}
+									{...register("email", {
+										required: "Email is required!",
+										pattern: {
+											value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+											message:
+												"Enter a valid email address.", // Custom error message
+										},
+									})}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<EnvelopeSimple
@@ -133,6 +164,12 @@ function Signup() {
 									/>
 								</span>
 							</div>
+							{/* Display error message if 'email' has an error */}
+							{errors.email && (
+								<p className="text-xs text-red-700 my-[2px]">
+									{errors.email.message}
+								</p>
+							)}
 						</div>
 
 						{/* Password */}
@@ -148,17 +185,27 @@ function Signup() {
 								<input
 									type="password"
 									id="userPassword"
-									required
 									placeholder="Create a new password (6+ characters long)"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
-									onChange={(event) =>
-										setPassword(event.target.value)
-									}
+									{...register("password", {
+										required: "Password is required!",
+										minLength: {
+											value: 6,
+											message:
+												"Password must be at least 6 characters long.",
+										},
+									})}
 								/>
 								<span className="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 text-primary">
 									<LockSimple size={20} weight="regular" />
 								</span>
 							</div>
+							{/* Display error message if 'password' has an error */}
+							{errors.password && (
+								<p className="text-xs text-red-700 my-[2px]">
+									{errors.password.message}
+								</p>
+							)}
 						</div>
 
 						<p className="text-xs text-center my-4">
