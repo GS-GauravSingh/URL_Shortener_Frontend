@@ -72,7 +72,6 @@ function Signin() {
 								<input
 									type="email"
 									id="userEmail"
-									required
 									autoFocus
 									placeholder="Enter email"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
@@ -113,7 +112,6 @@ function Signin() {
 								<input
 									type={showPassword ? "text" : "password"}
 									id="userPassword"
-									required
 									placeholder="Enter password"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
 									{...register("password", {
