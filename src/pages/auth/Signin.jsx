@@ -77,7 +77,7 @@ function Signin() {
 									placeholder="Enter email"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
 									{...register("email", {
-										required: "Email is required",
+										required: "Email is required!",
 										pattern: {
 											value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
 											message:
@@ -117,7 +117,7 @@ function Signin() {
 									placeholder="Enter password"
 									className="w-full bg-white h-10 rounded-md outline-none border border-primary pl-4 pr-12 text-sm text-primary tracking-wider !font-inter"
 									{...register("password", {
-										required: "Password is required",
+										required: "Password is required!",
 										minLength: {
 											value: 6,
 											message:
